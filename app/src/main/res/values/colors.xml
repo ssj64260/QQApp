@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#12B7F5</color>
+    <color name="colorPrimaryDark">#12B7F5</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="transparent">#00000000</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <color name="line_gray">#D5DBE0</color>
+
+    <color name="text_black">#525252</color>
+    <color name="text_gray">#747474</color>
+
+    <!--口袋妖怪属性颜色-->
+    <color name="general">#BBBBAA</color>
+    <color name="fighting">#BB5544</color>
+    <color name="flight">#6699FF</color>
+    <color name="poison">#AA5599</color>
+    <color name="ground">#DDBB55</color>
+    <color name="rock">#BBAA66</color>
+    <color name="insect">#AABB22</color>
+    <color name="ghost">#6666BB</color>
+    <color name="steel">#AAAABB</color>
+    <color name="fire">#FF4422</color>
+    <color name="water">#3399FF</color>
+    <color name="grass">#77CC55</color>
+    <color name="electricity">#FFCC33</color>
+    <color name="superpower">#FF5599</color>
+    <color name="ice">#77DDFF</color>
+    <color name="dragon">#7766EE</color>
+    <color name="evil">#775544</color>
+    <color name="fairy">#FFAAFF</color>
+
+    <color name="black_pressed">#33FFFFFF</color>
+
+</resources>

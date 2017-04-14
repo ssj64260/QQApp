@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="210dp">
+
+        <ImageView
+            android:id="@+id/iv_menu_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_qq_background_test" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="30dp">
+
+            <ImageView
+                android:id="@+id/iv_menu_scan"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_qq_scan" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/ll_menu_sign">
+
+            <ImageView
+                android:id="@+id/iv_menu_avatar"
+                android:layout_width="39dp"
+                android:layout_height="39dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                android:src="@mipmap/app_icon" />
+
+            <TextView
+                android:id="@+id/tv_menu_name"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:layout_toEndOf="@+id/iv_menu_avatar"
+                android:gravity="center_vertical"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                tools:text="COKU" />
+
+            <com.cxb.qqapp.widgets.QQLevelLayout
+                android:id="@+id/qql_qq_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_menu_avatar"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:gravity="bottom"
+                android:orientation="horizontal"
+                android:paddingTop="5dp"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_menu_sign"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:background="@drawable/selector_bg_selectable">
+
+            <TextView
+                android:id="@+id/tv_menu_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center_vertical"
+                android:text="@string/text_edit_personalized_signature"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="5dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_qq_sign" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

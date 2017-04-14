@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">仿QQ</string>
+
+    <string name="text_edit_personalized_signature">编辑个性签名</string>
+    <string name="text_network_connect_msg">连接超时，请检查你的网络设置。</string>
+
+    <!--QQMainActivity-->
+    <string name="tab_qq_message">消息</string>
+    <string name="tab_qq_contacts">联系人</string>
+    <string name="tab_qq_dynamic">动态</string>
+    <string name="text_all">全部</string>
+    <string name="text_general">一般</string>
+    <string name="text_fighting">格斗</string>
+    <string name="text_flight">飞行</string>
+    <string name="text_poison">毒</string>
+    <string name="text_ground">地面</string>
+    <string name="text_rock">岩石</string>
+    <string name="text_insect">虫</string>
+    <string name="text_ghost">幽灵</string>
+    <string name="text_steel">钢</string>
+    <string name="text_fire">火</string>
+    <string name="text_water">水</string>
+    <string name="text_grass">草</string>
+    <string name="text_electricity">电</string>
+    <string name="text_superpower">超能力</string>
+    <string name="text_ice">冰</string>
+    <string name="text_dragon">龙</string>
+    <string name="text_evil">恶</string>
+    <string name="text_fairy">妖精</string>
+</resources>
