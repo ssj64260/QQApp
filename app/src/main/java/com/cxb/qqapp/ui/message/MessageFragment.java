@@ -90,8 +90,9 @@ public class MessageFragment extends Fragment {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_message, container, false);
 
-            initData();
             initView();
+            initData();
+            setData();
 
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -153,6 +154,13 @@ public class MessageFragment extends Fragment {
     }
 
     private void initView() {
+        titleTab = (SegmentTabLayout) rootView.findViewById(R.id.stl_title_tab);
+        ivMainAvatar = (ImageView) rootView.findViewById(R.id.iv_main_avatar);
+        ivAdd = (ImageView) rootView.findViewById(R.id.iv_qq_add);
+        rlNetworkWarm = (RelativeLayout) rootView.findViewById(R.id.rl_network_warning);
+    }
+
+    private void setData() {
         Glide.get(getActivity()).clearMemory();
         ThreadPoolUtil.getInstache().cachedExecute(new Runnable() {
             @Override
@@ -160,11 +168,6 @@ public class MessageFragment extends Fragment {
                 Glide.get(getActivity()).clearDiskCache();
             }
         });
-
-        titleTab = (SegmentTabLayout) rootView.findViewById(R.id.stl_title_tab);
-        ivMainAvatar = (ImageView) rootView.findViewById(R.id.iv_main_avatar);
-        ivAdd = (ImageView) rootView.findViewById(R.id.iv_qq_add);
-        rlNetworkWarm = (RelativeLayout) rootView.findViewById(R.id.rl_network_warning);
 
         Glide.with(getActivity()).load(R.drawable.ic_avatar)
                 .transform(new GlideCircleTransform(getActivity()))
@@ -211,6 +214,7 @@ public class MessageFragment extends Fragment {
             list.add(qq);
         }
         adapter.notifyDataSetChanged();
+
     }
 
     private OnListClickListener listClick = new OnListClickListener() {

@@ -1,5 +1,12 @@
 package com.cxb.qqapp.ui;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -26,12 +33,15 @@ import com.flyco.tablayout.listener.OnTabSelectListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 侧滑栏测试
  */
 
 public class QQMainActivity extends BaseAppCompatActivity {
+
+    private static final int REQUEST_CODE_QQ_MESSAGE = 0;
 
     private final String[] titles = {"消息", "电话"};
 
@@ -67,13 +77,37 @@ public class QQMainActivity extends BaseAppCompatActivity {
 
     private final int tabCount = 3;
 
+    private int messageNumber = 0;//消息数量
+    private NotificationManager mNotificationManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qq_main);
 
+        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
         initView();
         initFragment(savedInstanceState);
+
+        ThreadPoolUtil.getInstache().scheduledRate(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        sendQQNotification();
+                    }
+                });
+            }
+        }, 5, 20, TimeUnit.SECONDS);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mNotificationManager.cancel(REQUEST_CODE_QQ_MESSAGE);
+        ThreadPoolUtil.getInstache().scheduledShutDown(0);
     }
 
     private void initView() {
@@ -200,8 +234,43 @@ public class QQMainActivity extends BaseAppCompatActivity {
         transaction.commit();
     }
 
-    public void openMenu(){
+    public void openMenu() {
         smMain.toggleMenu();
+    }
+
+    private void sendQQNotification() {
+        messageNumber++;
+        String title = "COKU";
+        if (messageNumber > 1) {
+            title += " (" + messageNumber + "条新消息)";
+        }
+
+        String message = new String[]{
+                "我在睡觉",
+                "我在打龙之谷地狱巢穴",
+                "我在写Android代码",
+                "私はワンパンマンアニメーションを見ていました"
+        }[(int) (Math.random() * 10) % 4];
+
+        Notification.Builder mBuilder = new Notification.Builder(this);
+
+        Intent intent = new Intent();
+        intent.setClass(this, QQMainActivity.class);
+
+        mBuilder.setSmallIcon(R.drawable.ic_qq_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_coku_avatar))
+                .setContentTitle(title)
+                .setContentText(message)
+                .setWhen(System.currentTimeMillis())
+                .setContentIntent(PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT))
+                .setAutoCancel(true)
+                .setPriority(Notification.PRIORITY_HIGH)
+                .setLights(0xff00ff00, 2000, 2000)
+                .setVibrate(new long[]{0, 300, 200, 300})
+                .setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.qq_message));
+
+        Notification notification = mBuilder.build();
+        mNotificationManager.notify(REQUEST_CODE_QQ_MESSAGE, notification);
     }
 
     private View.OnClickListener leftClick = new View.OnClickListener() {

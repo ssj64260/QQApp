@@ -27,4 +27,8 @@
     <string name="text_dragon">龙</string>
     <string name="text_evil">恶</string>
     <string name="text_fairy">妖精</string>
+
+
+    <!--include_qq_search-->
+    <string name="text_qq_search">搜索</string>
 </resources>
