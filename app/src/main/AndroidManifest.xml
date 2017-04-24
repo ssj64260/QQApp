@@ -16,6 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
 
+        <service
+            android:name=".service.QQMessageService"
+            android:icon="@mipmap/app_icon"
+            android:label="仿QQ消息服务" />
+
         <activity
             android:name="com.cxb.qqapp.ui.QQMainActivity"
             android:screenOrientation="portrait">

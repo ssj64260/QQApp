@@ -64,7 +64,7 @@ public class MessageFragment extends Fragment {
     private Handler mHandler;
     private QQMainActivity qqMainActivity;
 
-    BroadcastReceiver checkNetwork = new BroadcastReceiver() {
+        BroadcastReceiver checkNetwork = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             int networkStatus = NetworkUtil.checkNetWorkType(getActivity());
