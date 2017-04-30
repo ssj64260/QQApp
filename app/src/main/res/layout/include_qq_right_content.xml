@@ -23,13 +23,13 @@
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:background="#ffffff"
-        tl:tl_iconHeight="28dp"
-        tl:tl_iconWidth="28dp"
+        tl:tl_iconHeight="54dp"
+        tl:tl_iconWidth="54dp"
         tl:tl_indicator_color="#ffffff"
         tl:tl_indicator_height="0dp"
         tl:tl_textSelectColor="#FF0295C9"
         tl:tl_textUnselectColor="#7F8393"
-        tl:tl_textsize="12sp"
+        tl:tl_textsize="0sp"
         tl:tl_underline_color="#ffffff"
         tl:tl_underline_height="0dp" />
 

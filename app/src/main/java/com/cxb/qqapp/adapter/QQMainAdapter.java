@@ -37,8 +37,7 @@ public class QQMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         layoutInflater = LayoutInflater.from(context);
 
         requestManager = Glide.with(context);
-        transform = new GlideCircleTransform(context)
-                .setColor(192, 192, 192, 1);
+        transform = new GlideCircleTransform(context);
     }
 
     @Override

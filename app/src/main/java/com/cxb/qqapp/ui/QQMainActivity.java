@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,13 +12,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.cxb.qqapp.R;
+import com.cxb.qqapp.model.LoginUserInfo;
 import com.cxb.qqapp.model.TabEntity;
 import com.cxb.qqapp.service.QQMessageService;
 import com.cxb.qqapp.ui.contacts.ContactsFragment;
 import com.cxb.qqapp.ui.dynamic.DynamicFragment;
 import com.cxb.qqapp.ui.message.MessageFragment;
-import com.cxb.qqapp.utils.DisplayUtil;
 import com.cxb.qqapp.utils.GlideCircleTransform;
+import com.cxb.qqapp.utils.PreferencesUtil;
 import com.cxb.qqapp.utils.ThreadPoolUtil;
 import com.cxb.qqapp.utils.ToastMaster;
 import com.cxb.qqapp.widgets.MySlidingMenu;
@@ -25,6 +27,8 @@ import com.cxb.qqapp.widgets.QQLevelLayout;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,14 +40,14 @@ import java.util.List;
 public class QQMainActivity extends BaseAppCompatActivity {
 
     private final int[] iconSelect = {
-            R.drawable.ic_qq_message_select,
-            R.drawable.ic_qq_contacts_select,
-            R.drawable.ic_qq_dynamic_select
+            R.drawable.skin_tab_icon_conversation_selected,
+            R.drawable.skin_tab_icon_contact_selected,
+            R.drawable.skin_tab_icon_plugin_selected
     };
     private final int[] iconUnselect = {
-            R.drawable.ic_qq_message_unselect,
-            R.drawable.ic_qq_contacts_unselect,
-            R.drawable.ic_qq_dynamic_unselect
+            R.drawable.skin_tab_icon_conversation_normal,
+            R.drawable.skin_tab_icon_contact_normal,
+            R.drawable.skin_tab_icon_plugin_normal
     };
 
     private MySlidingMenu smMain;
@@ -55,6 +59,9 @@ public class QQMainActivity extends BaseAppCompatActivity {
     private TextView tvMenuName;
     private LinearLayout llSign;
     private TextView tvSign;
+    private ImageView ivSign;
+    private LinearLayout llQQSetting;
+    private LinearLayout llQQBlackStyle;
 
     private View rightView;
     private CommonTabLayout tabLayout;
@@ -68,11 +75,14 @@ public class QQMainActivity extends BaseAppCompatActivity {
 
     private Intent mQQMessageIntent;
 
+    private LoginUserInfo userInfo = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qq_main);
 
+        initData();
         initView();
         initFragment(savedInstanceState);
         setData();
@@ -82,6 +92,16 @@ public class QQMainActivity extends BaseAppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         ThreadPoolUtil.getInstache().scheduledShutDown(0);
+    }
+
+    private void initData() {
+        try {
+            Gson gson = new Gson();
+            String json = PreferencesUtil.getString(PreferencesUtil.FILE_NAME_USER_INFO, PreferencesUtil.KEY_LOGIN_USER_INFO, "");
+            userInfo = gson.fromJson(json, LoginUserInfo.class);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initView() {
@@ -109,35 +129,43 @@ public class QQMainActivity extends BaseAppCompatActivity {
         tvMenuName = (TextView) leftView.findViewById(R.id.tv_menu_name);
         llSign = (LinearLayout) leftView.findViewById(R.id.ll_menu_sign);
         tvSign = (TextView) leftView.findViewById(R.id.tv_menu_sign);
+        ivSign = (ImageView) leftView.findViewById(R.id.iv_menu_sign);
+        llQQSetting = (LinearLayout) findViewById(R.id.ll_qq_setting);
+        llQQBlackStyle = (LinearLayout) findViewById(R.id.ll_qq_black_style);
 
         ivBackground.setOnClickListener(leftClick);
         ivScan.setOnClickListener(leftClick);
         llSign.setOnClickListener(leftClick);
+        llQQSetting.setOnClickListener(leftClick);
+        llQQBlackStyle.setOnClickListener(leftClick);
 
-        tvMenuName.setText("COKU");
-        qqLevel.setLevel(255);
+        if (userInfo != null) {
+            tvMenuName.setText(userInfo.getNickname());
+            qqLevel.setLevel(userInfo.getQqLevel());
 
-        GlideCircleTransform transform = new GlideCircleTransform(this)
-                .setBorderThickness(DisplayUtil.dip2px(this, 3))
-                .setColor(255, 255, 255, 1);
+            GlideCircleTransform transform = new GlideCircleTransform(this);
 
-        Glide.with(this).load(R.drawable.ic_avatar)
-                .centerCrop()
-                .transform(transform)
-                .dontAnimate()
-                .into(ivMenuAvatar);
+            Glide.with(this).load(userInfo.getAvatar())
+                    .centerCrop()
+                    .transform(transform)
+                    .dontAnimate()
+                    .into(ivMenuAvatar);
+
+            String sign = userInfo.getSign();
+            if (TextUtils.isEmpty(sign)) {
+                ivSign.setVisibility(View.VISIBLE);
+            } else {
+                ivSign.setVisibility(View.GONE);
+                tvSign.setText(sign);
+            }
+        }
     }
 
     private void initRightView() {
         rightView = findViewById(R.id.include_content);
-        String[] titles = {
-                getString(R.string.tab_qq_message),
-                getString(R.string.tab_qq_contacts),
-                getString(R.string.tab_qq_dynamic)
-        };
 
-        for (int i = 0; i < titles.length; i++) {
-            mTabEntities.add(new TabEntity(titles[i], iconSelect[i], iconUnselect[i]));
+        for (int i = 0; i < iconSelect.length; i++) {
+            mTabEntities.add(new TabEntity("", iconSelect[i], iconUnselect[i]));
         }
 
         tabLayout = (CommonTabLayout) rightView.findViewById(R.id.com_tablayout);
@@ -230,6 +258,12 @@ public class QQMainActivity extends BaseAppCompatActivity {
                 case R.id.ll_menu_sign:
                     ToastMaster.toast("签名");
                     break;
+                case R.id.ll_qq_setting:
+                    ToastMaster.toast("设置");
+                    break;
+                case R.id.ll_qq_black_style:
+                    ToastMaster.toast("夜间");
+                    break;
             }
         }
     };
@@ -239,7 +273,7 @@ public class QQMainActivity extends BaseAppCompatActivity {
         if (smMain.isOpen()) {
             smMain.toggleMenu();
         } else {
-            finish();
+            moveTaskToBack(false);
         }
     }
 }

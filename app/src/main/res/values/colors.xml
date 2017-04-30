@@ -14,6 +14,8 @@
     <color name="text_black">#525252</color>
     <color name="text_gray">#747474</color>
 
+    <color name="bg_gray">#C0C0C0</color>
+
     <!--口袋妖怪属性颜色-->
     <color name="general">#BBBBAA</color>
     <color name="fighting">#BB5544</color>

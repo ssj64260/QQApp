@@ -47,7 +47,7 @@
                 android:id="@+id/tv_qq_name"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:layout_toStartOf="@id/tv_qq_time"
+                android:layout_toStartOf="@+id/tv_qq_time"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"

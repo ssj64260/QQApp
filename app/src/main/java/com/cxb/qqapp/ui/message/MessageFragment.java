@@ -23,14 +23,18 @@ import com.bumptech.glide.Glide;
 import com.cxb.qqapp.R;
 import com.cxb.qqapp.adapter.OnListClickListener;
 import com.cxb.qqapp.adapter.QQMainAdapter;
+import com.cxb.qqapp.model.LoginUserInfo;
 import com.cxb.qqapp.model.QQMessageBean;
 import com.cxb.qqapp.ui.QQMainActivity;
 import com.cxb.qqapp.utils.GlideCircleTransform;
 import com.cxb.qqapp.utils.NetworkUtil;
+import com.cxb.qqapp.utils.PreferencesUtil;
 import com.cxb.qqapp.utils.ThreadPoolUtil;
 import com.cxb.qqapp.utils.ToastMaster;
 import com.flyco.tablayout.SegmentTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -47,7 +51,7 @@ public class MessageFragment extends Fragment {
 
     private View rootView;
 
-    private ImageView ivMainAvatar;//主页头像
+    private ImageView ivAvatar;
     private SegmentTabLayout titleTab;
     private ImageView ivAdd;
     private RelativeLayout rlNetworkWarm;
@@ -64,7 +68,9 @@ public class MessageFragment extends Fragment {
     private Handler mHandler;
     private QQMainActivity qqMainActivity;
 
-        BroadcastReceiver checkNetwork = new BroadcastReceiver() {
+    private LoginUserInfo userInfo = null;
+
+    BroadcastReceiver checkNetwork = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             int networkStatus = NetworkUtil.checkNetWorkType(getActivity());
@@ -155,12 +161,20 @@ public class MessageFragment extends Fragment {
 
     private void initView() {
         titleTab = (SegmentTabLayout) rootView.findViewById(R.id.stl_title_tab);
-        ivMainAvatar = (ImageView) rootView.findViewById(R.id.iv_main_avatar);
+        ivAvatar = (ImageView) rootView.findViewById(R.id.iv_avatar);
         ivAdd = (ImageView) rootView.findViewById(R.id.iv_qq_add);
         rlNetworkWarm = (RelativeLayout) rootView.findViewById(R.id.rl_network_warning);
     }
 
     private void setData() {
+        try {
+            Gson gson = new Gson();
+            String json = PreferencesUtil.getString(PreferencesUtil.FILE_NAME_USER_INFO, PreferencesUtil.KEY_LOGIN_USER_INFO, "");
+            userInfo = gson.fromJson(json, LoginUserInfo.class);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
+
         Glide.get(getActivity()).clearMemory();
         ThreadPoolUtil.getInstache().cachedExecute(new Runnable() {
             @Override
@@ -169,14 +183,16 @@ public class MessageFragment extends Fragment {
             }
         });
 
-        Glide.with(getActivity()).load(R.drawable.ic_avatar)
-                .transform(new GlideCircleTransform(getActivity()))
-                .dontAnimate()
-                .into(ivMainAvatar);
+        if (userInfo != null) {
+            Glide.with(getActivity()).load(userInfo.getAvatar())
+                    .transform(new GlideCircleTransform(getActivity()))
+                    .dontAnimate()
+                    .into(ivAvatar);
+        }
 
         titleTab.setTabData(titles);
         titleTab.setOnTabSelectListener(tabSelect);
-        ivMainAvatar.setOnClickListener(click);
+        ivAvatar.setOnClickListener(click);
         ivAdd.setOnClickListener(click);
         rlNetworkWarm.setOnClickListener(click);
 
@@ -220,7 +236,7 @@ public class MessageFragment extends Fragment {
     private OnListClickListener listClick = new OnListClickListener() {
         @Override
         public void onItemClick(int position) {
-            ToastMaster.toast(list.get(position).getName());
+
         }
 
         @Override
@@ -236,7 +252,7 @@ public class MessageFragment extends Fragment {
                 case R.id.ll_qq_search:
                     ToastMaster.toast("搜索");
                     break;
-                case R.id.iv_main_avatar:
+                case R.id.iv_avatar:
                     qqMainActivity.openMenu();
                     break;
                 case R.id.rl_network_warning:

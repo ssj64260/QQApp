@@ -60,14 +60,14 @@ public class MySlidingMenu extends RelativeLayout {
         haveShelter = ta.getBoolean(R.styleable.MySlidingMenu_shelter, true);
         ta.recycle();
 
-        shortTouchWidth = DisplayUtil.getMetrics(context).density;
+        shortTouchWidth = DisplayUtil.getMetrics().density;
 
         mScroller = new Scroller(context);
 
-        mScreenWidth = DisplayUtil.getScreenWidth(context);
-        mScreenHeight = DisplayUtil.getScreenHeight(context);
+        mScreenWidth = DisplayUtil.getScreenWidth();
+        mScreenHeight = DisplayUtil.getScreenHeight();
         //设置Menu距离屏幕右侧的距离，convertToDp是将代码中的100转换成100dp
-        mMenuRightPadding = DisplayUtil.convertToDp(context, spacePx);
+        mMenuRightPadding = DisplayUtil.convertToDp(spacePx);
 
         if (haveShelter) {
             shelter = new View(context);

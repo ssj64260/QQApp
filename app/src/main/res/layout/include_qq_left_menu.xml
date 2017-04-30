@@ -21,14 +21,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="35dp">
 
             <ImageView
                 android:id="@+id/iv_menu_scan"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_qq_scan" />
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/qq_setting_me_qr_code_icon" />
         </LinearLayout>
 
         <RelativeLayout
@@ -37,20 +37,32 @@
             android:layout_above="@+id/ll_menu_sign">
 
             <ImageView
-                android:id="@+id/iv_menu_avatar"
-                android:layout_width="39dp"
-                android:layout_height="39dp"
-                android:layout_marginStart="20dp"
+                android:id="@+id/iv_avatar_background"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
-                android:src="@mipmap/app_icon" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/qq_setting_avatar_background" />
+
+            <ImageView
+                android:id="@+id/iv_menu_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/iv_avatar_background"
+                android:layout_alignEnd="@+id/iv_avatar_background"
+                android:layout_alignStart="@+id/iv_avatar_background"
+                android:layout_alignTop="@+id/iv_avatar_background"
+                android:layout_margin="2dp"
+                tools:src="@drawable/ic_coku_avatar" />
 
             <TextView
                 android:id="@+id/tv_menu_name"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginTop="16dp"
-                android:layout_toEndOf="@+id/iv_menu_avatar"
+                android:layout_toEndOf="@+id/iv_avatar_background"
                 android:gravity="center_vertical"
                 android:textColor="@color/white"
                 android:textSize="30sp"
@@ -60,12 +72,12 @@
                 android:id="@+id/qql_qq_level"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/iv_menu_avatar"
+                android:layout_below="@+id/iv_avatar_background"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:gravity="bottom"
                 android:orientation="horizontal"
-                android:paddingTop="5dp"/>
+                android:paddingTop="5dp" />
         </RelativeLayout>
 
         <LinearLayout
@@ -74,29 +86,117 @@
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="15dp"
+            android:background="@drawable/selector_bg_selectable"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingEnd="20dp"
-            android:paddingStart="20dp"
-            android:background="@drawable/selector_bg_selectable">
+            android:paddingStart="20dp">
 
             <TextView
                 android:id="@+id/tv_menu_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
+                android:ellipsize="end"
                 android:gravity="center_vertical"
+                android:maxLines="1"
                 android:text="@string/text_edit_personalized_signature"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
 
             <ImageView
+                android:id="@+id/iv_menu_sign"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_marginStart="5dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_qq_sign" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/qq_setting_me_richstatus_icon_none" />
         </LinearLayout>
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_qq_setting"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:duplicateParentState="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/selector_ic_qq_setting" />
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:duplicateParentState="true"
+                android:gravity="center"
+                android:text="设置"
+                android:textColor="@drawable/selector_qq_setting_text_color"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_qq_black_style"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:duplicateParentState="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/selector_ic_qq_black_style" />
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:duplicateParentState="true"
+                android:gravity="center"
+                android:text="夜间"
+                android:textColor="@drawable/selector_qq_setting_text_color"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:text="佛山"
+            android:textColor="@drawable/selector_qq_setting_text_color"
+            android:textSize="14sp" />
+
+    </LinearLayout>
 
 </LinearLayout>

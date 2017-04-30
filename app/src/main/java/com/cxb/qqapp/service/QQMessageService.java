@@ -8,13 +8,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Handler;
+import android.os.Bundle;
 import android.os.IBinder;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 
 import com.cxb.qqapp.R;
-import com.cxb.qqapp.ui.QQMainActivity;
+import com.cxb.qqapp.db.LiteOrmHelper;
+import com.cxb.qqapp.model.QQMessageBean;
+import com.cxb.qqapp.ui.message.ChatPageActivity;
+import com.cxb.qqapp.utils.DateTimeUtils;
 import com.cxb.qqapp.utils.ThreadPoolUtil;
 
 import java.util.concurrent.TimeUnit;
@@ -36,23 +38,18 @@ public class QQMessageService extends Service {
     private int startId;
 
     private NotificationManager mNotificationManager;
-
-    private Handler mainHandler = new Handler(Looper.getMainLooper());
+    private LiteOrmHelper liteOrmHelper;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        liteOrmHelper = new LiteOrmHelper(this);
 
         ThreadPoolUtil.getInstache().scheduledRate(new Runnable() {
             @Override
             public void run() {
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        sendQQMessageNotification();
-                    }
-                });
+                sendQQMessageNotification();
             }
         }, 5, 20, TimeUnit.SECONDS);
     }
@@ -75,23 +72,44 @@ public class QQMessageService extends Service {
         super.onDestroy();
         mNotificationManager.cancel(REQUEST_CODE_QQ_MESSAGE);
         ThreadPoolUtil.getInstache().scheduledShutDown(0);
+        liteOrmHelper.closeDB();
     }
 
     private void sendQQMessageNotification() {
         if (messageNumber > 3) {
-//            stopSelf(startId);
             return;
         }
 
         messageNumber++;
-        String title = "COKU";
+        String qqNumber = "79953676";
+        String username = "COKU";
+        int qqAvatar = "79953676".equals(qqNumber) ? R.drawable.ic_coku_avatar : R.drawable.ic_co_avatar;
+        String message = messages[(int) (Math.random() * 10) % 4];
+
+        final QQMessageBean qqMessage = new QQMessageBean();
+        qqMessage.setQqNumber(qqNumber);
+        qqMessage.setAvatarRes(qqAvatar);
+        qqMessage.setName(username);
+        qqMessage.setContent(message);
+        qqMessage.setTime(DateTimeUtils.getEnShortTime());
+
+        ThreadPoolUtil.getInstache().cachedExecute(new Runnable() {
+            @Override
+            public void run() {
+                liteOrmHelper.save(qqMessage);
+            }
+        });
+
+        Intent intent = new Intent();
+        intent.setClass(this, ChatPageActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(QQMessageBean.TAG_QQ_MESSAGE, qqMessage);
+        intent.putExtras(bundle);
+
+        String title = username;
         if (messageNumber > 1) {
             title += " (" + messageNumber + "条新消息)";
         }
-        String message = messages[(int) (Math.random() * 10) % 4];
-
-        Intent intent = new Intent();
-        intent.setClass(this, QQMainActivity.class);
 
         Notification.Builder mBuilder = new Notification.Builder(this);
         mBuilder.setTicker("收到了一条消息")
@@ -99,7 +117,7 @@ public class QQMessageService extends Service {
                 .setContentText(message)
                 .setContentIntent(PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT))
                 .setSmallIcon(R.drawable.ic_qq_notification)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_coku_avatar))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), qqAvatar))
                 .setWhen(System.currentTimeMillis())
                 .setShowWhen(true)
                 .setAutoCancel(true)
