@@ -27,4 +27,4 @@ QQApp
          这个就不用我说了，自从用RecyclerView代替ListView后，下拉刷新和上拉加载就离不开这个控件了，[传送门](https://github.com/jianghejie/XRecyclerView)
 
 #### 2.4、Glide
-         Glide这么出名你都不知道，那就out了，头像画圆就用了Glide，感觉大才小用啊(lll￢ω￢)，[传送门](https://github.com/bumptech/glide)
+         Glide这么出名你都不知道，那就out了，头像画圆就用了Glide的transform方法，画圆和边框是自定义的GlideCircleTransform，感觉大才小用啊(lll￢ω￢)，[传送门](https://github.com/bumptech/glide)
