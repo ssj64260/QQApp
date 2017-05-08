@@ -28,3 +28,6 @@ QQApp
 
 #### 2.4、Glide
          Glide这么出名你都不知道，那就out了，头像画圆就用了Glide的transform方法，画圆和边框是自定义的GlideCircleTransform，感觉大才小用啊(lll￢ω￢)，[传送门](https://github.com/bumptech/glide)
+         
+#### 2.5、QQMessageService
+         本项目有一个服务，是用来定时发送消息，并推送到通知栏，本来应该是两部手机相互发送，等有时间加个Socket通过局域网进行对话聊天功能(￣▽￣)"
