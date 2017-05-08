@@ -18,7 +18,7 @@ QQApp
 
 ### 2、所使用的控件
 #### 2.1、MySlidingMenu
-         这是一个自定义的左右滑动ViewGroup，是我仿照[这个贴](http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2016/0909/6612.html)写的，然后通过观察腾讯QQ的效果来进行微调。
+         这是一个自定义的左右滑动ViewGroup，是我参考[这个贴](http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2016/0909/6612.html)进行构思的，然后通过观察腾讯QQ的效果来进行微调。
          
 #### 2.2、FlycoTabLayout
          这个是tabbar样式集合的一个第三方库，里面的样式比较齐全，[传送门](https://github.com/H07000223/FlycoTabLayout)
