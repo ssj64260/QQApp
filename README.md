@@ -31,3 +31,6 @@ QQApp
          
 #### 2.5、QQMessageService
          本项目有一个服务，是用来定时发送消息，并推送到通知栏，本来应该是两部手机相互发送，等有时间加个Socket通过局域网进行对话聊天功能(￣▽￣)"
+
+### 3、最后放一些动态预览图
+![](https://raw.githubusercontent.com/ssj64260/QQApp/master/image/20170508224328-1.gif)
