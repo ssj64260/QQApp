@@ -4,7 +4,7 @@ QQApp
 ## 仿Android版腾讯QQ 6.0 的UI，本项目仅仅用于练手，代码可能写得并不精致
 
 ### 1、UI预览
-#### 登录页面预览图
+#### 登录页面预览图（帐号：1056125823，密码：654321）当然真正的密码并不是这个(￣▽￣)"
 ![](https://raw.githubusercontent.com/ssj64260/QQApp/master/image/Screenshot_20170508-212604.png)
 
 #### 消息页面预览图
